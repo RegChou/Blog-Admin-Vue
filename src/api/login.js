@@ -31,6 +31,13 @@ export function login (parameter) {
     data: parameter
   })
 }
+export function register (parameter) {
+  return request({
+    url: '/auth/admin/v1/register',
+    method: 'post',
+    data: parameter
+  })
+}
 
 export function getSmsCaptcha (parameter) {
   return request({
