@@ -14,8 +14,8 @@
           type="text"
           placeholder="请输入手机或邮箱地址"
           v-decorator="[
-                'username',
-                {rules: [{ required: true, message: '请输入手机或邮箱地址' }, { validator: handleUsernameOrEmail }], validateTrigger: 'change'}
+                'email',
+                {rules: [{ required: true, message: '请输入手机或邮箱地址' }, { validator: handleemailOrEmail }], validateTrigger: 'change'}
               ]"
         >
           <a-icon slot="prefix" type="user" :style="{ color: 'rgba(0,0,0,.25)' }"/>
@@ -83,7 +83,7 @@
     methods: {
       ...mapActions(['Login', 'Logout']),
       // handler
-      handleUsernameOrEmail (rule, value, callback) {
+      handleemailOrEmail (rule, value, callback) {
         const { state } = this
         const regex = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/
         // eslint-disable-next-line no-unused-vars
@@ -104,10 +104,9 @@
         } = this
 
         state.loginBtn = true
-        const validateFieldsKey = ['username', 'password']
+        const validateFieldsKey = ['email', 'password']
         validateFields(validateFieldsKey, { force: true }, (err, values) => {
           if (!err) {
-            console.log('login form', values)
             const loginParams = { ...values }
             loginParams.password = require('js-sha256').sha256(values.password)
             Login(loginParams)

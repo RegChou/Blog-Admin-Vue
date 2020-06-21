@@ -22,3 +22,31 @@ export function getSmsCaptcha (parameter) {
     data: parameter
   })
 }
+
+export function logout () {
+  return request({
+    url: '/auth/logout',
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8'
+    }
+  })
+}
+
+export function getInfo (token) {
+  return request({
+    url: '/auth/user/v1/get',
+    method: 'get',
+    headers: {
+      'Authorization': token
+    }
+  })
+}
+
+export function socialLogin (parameter) {
+  return request({
+    url: '/auth/admin/v1/login',
+    method: 'post',
+    data: parameter
+  })
+}
