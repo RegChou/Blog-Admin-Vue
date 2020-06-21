@@ -1,5 +1,5 @@
 <template>
-  <page-header-wrapper content="表单页用于向用户收集或验证信息，基础表单常见于数据项较少的表单场景。">
+  <page-header-wrapper title=" ">
     <a-card :body-style="{padding: '24px 32px'}" :bordered="false">
       <a-form @submit="handleSubmit" :form="form">
         <a-form-item

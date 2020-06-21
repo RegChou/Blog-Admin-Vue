@@ -29,6 +29,7 @@
 
 <script>
 import { Modal } from 'ant-design-vue'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'AvatarDropdown',
@@ -43,22 +44,27 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['Logout']),
     handleToCenter () {
       this.$router.push({ path: '/account/center' })
     },
     handleToSettings () {
       this.$router.push({ path: '/account/settings' })
     },
-    handleLogout (e) {
+    handleLogout () {
       Modal.confirm({
-        title: this.$t('layouts.usermenu.dialog.title'),
-        content: this.$t('layouts.usermenu.dialog.content'),
+        title: '提示',
+        content: '真的要注销登录吗 ?',
         onOk: () => {
-          // return new Promise((resolve, reject) => {
-          //   setTimeout(Math.random() > 0.5 ? resolve : reject, 1500)
-          // }).catch(() => console.log('Oops errors!'))
-          return this.$store.dispatch('Logout').then(() => {
-            this.$router.push({ name: 'login' })
+          return this.Logout().then(() => {
+            setTimeout(() => {
+              window.location.reload()
+            }, 16)
+          }).catch(err => {
+            this.$message.error({
+              title: '错误',
+              description: err.message
+            })
           })
         },
         onCancel () {}

@@ -25,11 +25,8 @@ export function getSmsCaptcha (parameter) {
 
 export function logout () {
   return request({
-    url: '/auth/logout',
-    method: 'post',
-    headers: {
-      'Content-Type': 'application/json;charset=UTF-8'
-    }
+    url: '/auth/v1/logout',
+    method: 'post'
   })
 }
 
