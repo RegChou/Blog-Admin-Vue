@@ -4,7 +4,7 @@
       <div class="top">
         <div class="header">
           <a href="/">
-            <img src="~@/assets/logo.svg" class="logo" alt="logo">
+            <img src="~@/assets/logo.png" class="logo" alt="logo">
             <span class="title">欢迎登陆Blog后台管理系统</span>
           </a>
         </div>
@@ -22,7 +22,7 @@
           <a href="_self">条款</a>
         </div>
         <div class="copyright">
-          Copyright &copy; 2018 vueComponent
+          Copyright &copy; 2020 Muxui
         </div>
       </div>
     </div>

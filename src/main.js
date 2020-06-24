@@ -20,7 +20,8 @@ import './core/lazy_use'
 import './permission' // permission control
 import './utils/filter' // global filter
 import './global.less'
-
+import mavonEditor from 'mavon-editor' // makedown
+import 'mavon-editor/dist/css/index.css'
 Vue.config.productionTip = false
 
 // mount axios to `Vue.$http` and `this.$http`
@@ -34,6 +35,7 @@ new Vue({
   router,
   store,
   i18n,
+  mavonEditor,
   created: bootstrap,
   render: h => h(App)
 }).$mount('#app')
