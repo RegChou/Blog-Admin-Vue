@@ -30,3 +30,18 @@ export function fetchArticle (id) {
     method: 'get'
   })
 }
+
+export function deleteArticle (id) {
+  return request({
+    url: `/article/v1/delete/${id}`,
+    method: 'delete'
+  })
+}
+
+export function updateArticleStatus (data) {
+  return request({
+    url: '/article/status/v1/update',
+    method: 'put',
+    data
+  })
+}

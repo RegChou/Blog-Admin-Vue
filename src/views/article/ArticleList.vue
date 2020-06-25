@@ -21,11 +21,11 @@
         <span slot="summary" slot-scope="text">
           <ellipsis :length="10" tooltip>{{ text }}</ellipsis>
         </span>
-        <span slot="createTime" slot-scope="text">
-          {{ text | dayjs }}
-        </span>
         <span slot="titles" slot-scope="text">
           <ellipsis :length="15" tooltip>{{ text }}</ellipsis>
+        </span>
+        <span slot="createTime" slot-scope="text">
+          {{ text | dayjs }}
         </span>
         <span slot="action" slot-scope="text, record">
           <template>
@@ -61,7 +61,7 @@
 <script>
   import { filters, table } from './article-constants'
   import CreateArticleForm from './modules/CreateForm'
-  import { fetchList } from '@/api/article'
+  import { fetchList, deleteArticle, updateArticleStatus } from '@/api/article'
   import { STable, Ellipsis } from '@/components'
   export default {
     name: 'ArticleList',
@@ -113,8 +113,29 @@
         this.visible = flag
         this.record = null
       },
+      handleModifyStatus (record, status) {
+        updateArticleStatus({
+          id: record.id,
+          status: status
+        }).then(res => {
+          this.$notification.success({
+            message: '更新状态成功'
+          })
+          this.$refs.table.refresh()
+        })
+      },
       refreshTable () {
         this.$refs.table.refresh()
+      },
+      handleDelete (row) {
+        deleteArticle(row.id).then(res => {
+          this.$notification.success({
+            message: '删除成功'
+          })
+          this.$refs.table.refresh()
+        })
+      },
+      cancel () {
       }
     }
   }

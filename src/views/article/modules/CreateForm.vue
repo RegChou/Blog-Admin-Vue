@@ -248,7 +248,7 @@ export default {
       this.id = record.id
       fetchArticle(record.id)
         .then(response => {
-          const postForm = response.model
+          const postForm = response.data
           console.log(postForm)
           this.tagsList = postForm.tagsList
           this.content = postForm.content

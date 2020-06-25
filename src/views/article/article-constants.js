@@ -13,12 +13,6 @@ const table = {
       scopedSlots: { customRender: 'titles' }
     },
     {
-      title: '创建时间',
-      align: 'center',
-      dataIndex: 'createTime',
-      scopedSlots: { customRender: 'createTime' }
-    },
-    {
       title: '摘要',
       dataIndex: 'summary',
       align: 'center',
@@ -46,11 +40,17 @@ const table = {
       dataIndex: 'weight'
     },
     {
+      title: '创建时间',
+      align: 'center',
+      dataIndex: 'createTime',
+      scopedSlots: { customRender: 'createTime' }
+    },
+    {
       title: '操作',
       dataIndex: 'action',
       align: 'center',
       fixed: 'right',
-      width: '250px',
+      width: '200px',
       scopedSlots: { customRender: 'action' }
     }
   ]
