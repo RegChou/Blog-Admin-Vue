@@ -1,16 +1,16 @@
-import { axios } from '@/utils/request'
+import request from '@/utils/request'
 
 export function fetchConfigList (query) {
-  return axios({
-    url: '/config/config/v1/list',
+  return request({
+    url: '/config/v1/list',
     method: 'get',
     params: query
   })
 }
 
 export function updateConfig (data) {
-  return axios({
-    url: '/config/config/v1/update',
+  return request({
+    url: '/config/v1/update',
     method: 'put',
     data
   })
