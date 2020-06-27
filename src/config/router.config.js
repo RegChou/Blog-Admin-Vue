@@ -46,6 +46,18 @@ export const asyncRouterMap = [
             name: 'ArticleList',
             component: () => import('@/views/article/ArticleList'),
             meta: { title: '文章列表', keepAlive: false, permission: [ 'ArticleList' ] }
+          },
+          {
+            path: '/tags/list',
+            name: 'TagsList',
+            component: () => import('@/views/tags/TagsList'),
+            meta: { title: '标签列表', keepAlive: false }
+          },
+          {
+            path: '/category/list',
+            name: 'CategoryList',
+            component: () => import('@/views/category/CategoryList'),
+            meta: { title: '分类列表', keepAlive: false }
           }
         ]
       },

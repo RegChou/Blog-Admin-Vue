@@ -1,10 +1,9 @@
 <template>
   <div>
-    <a-drawer
+    <a-modal
       :title="title"
-      placement="right"
       :closable="true"
-      @close="onClose"
+      @cancel="onClose"
       :visible="drawerVisible"
       :width="800">
       <a-form @submit="handleSubmit" :form="form" class="form">
@@ -67,7 +66,7 @@
             <a-col :lg="24" :md="12" :sm="24">
               <a-form-item label="封面图">
                 <a-upload
-                  action="/api/blog/file/file/v1/upload/"
+                  action="/api/blog/file/v1/upload/"
                   listType="picture-card"
                   :fileList="fileList"
                   @preview="handlePreview"
@@ -124,7 +123,7 @@
           </a-button>
         </div>
       </a-form>
-    </a-drawer>
+    </a-modal>
   </div>
 </template>
 
@@ -209,7 +208,7 @@ export default {
             createParams.thumbnail !== null &&
             createParams.thumbnail.file !== null &&
             createParams.thumbnail.file !== undefined) {
-            createParams.thumbnail = createParams.thumbnail.file.response.extra
+            createParams.thumbnail = createParams.thumbnail.file.response.data
           }
 
           if (this.formType === 'create') {
@@ -318,12 +317,12 @@ export default {
     },
     getTagsList () {
       fetchTagsList().then(response => {
-        this.dynamicTags = response.models
+        this.dynamicTags = response.data
       })
     },
     getCategoryList () {
       fetchCategoryLists().then(response => {
-        this.categoryList = response.models
+        this.categoryList = response.data
       })
     },
     handleCancel () {
@@ -357,7 +356,7 @@ export default {
       formdata.append('file', $file)
       uploadFile(formdata).then(res => {
         console.log(res)
-        const url = res.extra
+        const url = res.data
         // 第二步.将返回的url替换到文本原位置![...](0) -> ![...](url)
         // $vm.$img2Url 详情见本页末尾
         this.$refs.md.$img2Url(pos, url)

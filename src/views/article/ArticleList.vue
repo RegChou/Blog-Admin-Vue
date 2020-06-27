@@ -1,6 +1,7 @@
 <template>
   <page-header-wrapper title=" ">
     <a-card :bordered="false">
+      <SearchForm ref="searchForm" @reloadData="reloadData"/>
       <div class="table-operator">
         <a-button type="primary" icon="plus" @click="createHandler">新建</a-button>
       </div>
@@ -21,11 +22,11 @@
         <span slot="summary" slot-scope="text">
           <ellipsis :length="10" tooltip>{{ text }}</ellipsis>
         </span>
-        <span slot="titles" slot-scope="text">
-          <ellipsis :length="15" tooltip>{{ text }}</ellipsis>
-        </span>
         <span slot="createTime" slot-scope="text">
           {{ text | dayjs }}
+        </span>
+        <span slot="titles" slot-scope="text">
+          <ellipsis :length="15" tooltip>{{ text }}</ellipsis>
         </span>
         <span slot="action" slot-scope="text, record">
           <template>
@@ -59,88 +60,101 @@
 </template>
 
 <script>
-  import { filters, table } from './article-constants'
-  import CreateArticleForm from './modules/CreateForm'
-  import { fetchList, deleteArticle, updateArticleStatus } from '@/api/article'
-  import { STable, Ellipsis } from '@/components'
-  export default {
-    name: 'ArticleList',
-    components: {
-      STable,
-      Ellipsis,
-      CreateArticleForm
-    },
-    filters: filters,
-    data () {
-      return {
-        queryParam: {},
-        loadData: parameter => {
-          console.log('loadData.parameter', parameter)
-          return fetchList(Object.assign(parameter, this.queryParam)).then(res => {
-            return res
-          })
-        },
-        options: {
-          alert: {
-            show: true,
-            clear: () => {
-              this.selectedRowKeys = []
-            }
-          },
-          rowSelection: {
-            selectedRowKeys: this.selectedRowKeys,
-            onChange: this.onSelectChange
+import { fetchList, updateArticleStatus, deleteArticle } from '@/api/article'
+import { STable, Ellipsis } from '@/components'
+import CreateArticleForm from './modules/CreateForm'
+import SearchForm from './modules/SearchForm'
+import { filters, table } from './article-constants'
+export default {
+  name: 'ArticleList',
+  components: {
+    STable,
+    Ellipsis,
+    CreateArticleForm,
+    SearchForm
+  },
+  filters: filters,
+  data () {
+    return {
+      queryParam: {},
+      loadData: parameter => {
+        return fetchList(Object.assign(parameter, this.queryParam)).then(res => {
+          return res
+        })
+      },
+      options: {
+        alert: {
+          show: true,
+          clear: () => {
+            this.selectedRowKeys = []
           }
         },
-        columns: table.columns,
-        visible: false,
-        formType: 'create'
-      }
+        rowSelection: {
+          selectedRowKeys: this.selectedRowKeys,
+          onChange: this.onSelectChange
+        }
+      },
+      columns: table.columns,
+      visible: false,
+      formType: 'create'
+    }
+  },
+  created () {},
+  methods: {
+    createHandler () {
+      this.formType = 'create'
+      this.visible = true
+      this.$refs.createArticleForm.resetForm()
     },
-    created () {},
-    methods: {
-      createHandler () {
-        this.formType = 'create'
-        this.visible = true
-        this.$refs.createArticleForm.resetForm()
-      },
-      handleEdit (record) {
-        this.$refs.createArticleForm.handleEdit(record)
-        this.formType = 'edit'
-        this.visible = true
-      },
-      resetData (flag) {
-        this.visible = flag
-        this.record = null
-      },
-      handleModifyStatus (record, status) {
-        updateArticleStatus({
-          id: record.id,
-          status: status
-        }).then(res => {
-          this.$notification.success({
-            message: '更新状态成功'
-          })
-          this.$refs.table.refresh()
+    handleEdit (record) {
+      this.$refs.createArticleForm.handleEdit(record)
+      this.formType = 'edit'
+      this.visible = true
+    },
+    resetData (flag) {
+      this.visible = flag
+      this.record = null
+    },
+    refreshTable () {
+      this.$refs.table.refresh()
+    },
+    reloadData (queryParam) {
+      this.queryParam = queryParam
+      this.refreshTable()
+    },
+    handleModifyStatus (record, status) {
+      updateArticleStatus({
+        id: record.id,
+        status: status
+      }).then(res => {
+        this.$notification.success({
+          message: '更新状态成功'
         })
-      },
-      refreshTable () {
         this.$refs.table.refresh()
-      },
-      handleDelete (row) {
-        deleteArticle(row.id).then(res => {
-          this.$notification.success({
-            message: '删除成功'
-          })
-          this.$refs.table.refresh()
+      })
+    },
+    handleDelete (row) {
+      deleteArticle(row.id).then(res => {
+        this.$notification.success({
+          message: '删除成功'
         })
-      },
-      cancel () {
-      }
+        this.$refs.table.refresh()
+      })
+    },
+    cancel () {
     }
   }
+}
 </script>
 
 <style scoped>
+.ant-upload-select-picture-card i {
+  font-size: 32px;
+  color: #999;
+}
 
+.ant-upload-select-picture-card .ant-upload-text {
+  margin-top: 8px;
+  color: #666;
+}
 </style>

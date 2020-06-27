@@ -2,7 +2,7 @@ import { axios } from '@/utils/request'
 
 export function fetchCategoryLists (query) {
   return axios({
-    url: '/category/category/v1/list',
+    url: '/category/v1/list',
     method: 'get',
     params: query
   })
@@ -18,7 +18,7 @@ export function fetchCategoryList (query) {
 
 export function createCategory (data) {
   return axios({
-    url: '/category/category/v1/add',
+    url: '/category/v1/add',
     method: 'post',
     data
   })
@@ -33,7 +33,7 @@ export function fetchCategory (id) {
 
 export function updateCategory (data) {
   return axios({
-    url: '/category/category/v1/update',
+    url: '/category/v1/update',
     method: 'put',
     data
   })
@@ -41,7 +41,7 @@ export function updateCategory (data) {
 
 export function deleteCategory (id) {
   return axios({
-    url: `/category/category/v1/${id}`,
+    url: `/category/v1/${id}`,
     method: 'delete'
   })
 }
