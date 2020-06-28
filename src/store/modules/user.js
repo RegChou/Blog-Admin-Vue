@@ -2,6 +2,7 @@ import storage from 'store'
 import { login, getInfo, logout, socialLogin } from '@/api/login'
 import { ACCESS_TOKEN } from '@/store/mutation-types'
 import { welcome } from '@/utils/util'
+import notification from 'ant-design-vue/es/notification'
 
 const user = {
   state: {
@@ -38,9 +39,18 @@ const user = {
       return new Promise((resolve, reject) => {
         login(userInfo).then(response => {
           const { data } = response
-          commit('SET_TOKEN', data.token)
-          storage.set(ACCESS_TOKEN, data.token, 7 * 24 * 60 * 60 * 1000)
-          resolve()
+          if (data === undefined) {
+            notification['error']({
+              message: '错误',
+              description: response.message,
+              duration: 4
+            })
+            reject(response.message)
+          } else {
+            commit('SET_TOKEN', data.token)
+            storage.set(ACCESS_TOKEN, data.token, 7 * 24 * 60 * 60 * 1000)
+            resolve()
+          }
         }).catch(error => {
           reject(error)
         })
