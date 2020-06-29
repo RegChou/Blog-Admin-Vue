@@ -61,7 +61,36 @@ export const asyncRouterMap = [
           }
         ]
       },
-
+      // menu
+      {
+        path: '/menu',
+        redirect: '/menu/list',
+        component: RouteView,
+        meta: { title: '菜单管理', icon: 'snippets' },
+        children: [
+          {
+            path: '/menu/list',
+            name: 'menuList',
+            component: () => import('@/views/menu/MenuList'),
+            meta: { title: '菜单列表', keepAlive: false }
+          }
+        ]
+      },
+      // logs
+      {
+        path: '/logs',
+        redirect: '/logs/list',
+        component: RouteView,
+        meta: { title: '日志管理', icon: 'snippets' },
+        children: [
+          {
+            path: '/logs/list',
+            name: 'logsList',
+            component: () => import('@/views/logs/LogsList'),
+            meta: { title: '日志列表', keepAlive: false }
+          }
+        ]
+      },
       {
         path: '/result',
         name: 'result',

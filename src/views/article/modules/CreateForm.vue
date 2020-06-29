@@ -95,7 +95,7 @@
                   :box-shadow="false"
                   :subfield="false"
                   placeholder="开始你的表演"
-                  style="height: 835px;z-index: 5"
+                  style="height: 700px;z-index: 5"
                   @imgAdd="$imgAdd"
                 />
               </a-form-item>

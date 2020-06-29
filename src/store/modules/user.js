@@ -39,17 +39,17 @@ const user = {
       return new Promise((resolve, reject) => {
         login(userInfo).then(response => {
           const { data } = response
-          if (data === undefined) {
+          if (response.success) {
+            commit('SET_TOKEN', data.token)
+            storage.set(ACCESS_TOKEN, data.token, 7 * 24 * 60 * 60 * 1000)
+            resolve()
+          } else {
             notification['error']({
               message: '错误',
               description: response.message,
               duration: 4
             })
             reject(response.message)
-          } else {
-            commit('SET_TOKEN', data.token)
-            storage.set(ACCESS_TOKEN, data.token, 7 * 24 * 60 * 60 * 1000)
-            resolve()
           }
         }).catch(error => {
           reject(error)
