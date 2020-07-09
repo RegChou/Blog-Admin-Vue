@@ -109,7 +109,6 @@ export default {
           const createParams = { ...values }
           const arr = []
           if (createParams.tagsList !== undefined) {
-            debugger
             createParams.tagsList.forEach((item, index) => {
               this.dynamicTags.forEach(item1 => {
                 if (item1.id === Number(item)) {

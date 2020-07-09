@@ -99,7 +99,10 @@ const vueConfig = {
 
   // disable source map in production
   productionSourceMap: false,
-  lintOnSave: undefined,
+  lintOnSave: false,
+  publicPath: '/admin',
+  outputDir: 'dist',
+  assetsDir: 'static',
   // babel-loader no-ignore node_modules/*
   transpileDependencies: []
 }

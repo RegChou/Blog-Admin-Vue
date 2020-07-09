@@ -39,7 +39,7 @@ export const asyncRouterMap = [
         component: RouteView,
         redirect: '/article/list',
         name: 'article Management',
-        meta: { title: '文章管理', icon: 'form', keepAlive: true, permission: [ 'article' ] },
+        meta: { title: '文章管理', icon: 'form' },
         children: [
           {
             path: '/article/List',
