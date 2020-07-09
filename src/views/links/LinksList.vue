@@ -1,7 +1,7 @@
 <template>
   <page-header-wrapper title=" ">
     <a-card :bordered="false">
-      <SearchForm ref="SearchCategoryForm" @reloadData="reloadData"/>
+      <SearchForm ref="SearchForm" @reloadData="reloadData"/>
       <div class="table-operator">
         <a-button type="primary" icon="plus" @click="createHandler">新建</a-button>
       </div>
@@ -15,6 +15,12 @@
         :rowSelection="options.rowSelection"
         showPagination="true"
       >
+        <span slot="logo" slot-scope="text, record">
+          <template>
+            <avatar-list size="large" ><avatar-list-item :tips="record.name" :src="text"/></avatar-list>
+          </template>
+        </span>
+
         <span slot="action" slot-scope="text, record">
           <template>
             <a @click="handleEdit(record)">编辑</a>
@@ -34,7 +40,7 @@
       <CreateForm
         :formType="formType"
         :visible="visible"
-        ref="createTagsForm"
+        ref="createLinksForm"
         @resetData="resetData"
         @refreshTable="refreshTable"
       />
@@ -44,24 +50,29 @@
 
 <script>
 import { STable, Ellipsis } from '@/components'
-import { table, filters } from './tags-constants'
-import { fetchTagsList, deleteTags } from '@/api/tags'
+import { table, filters } from './links-constants'
+import { fetchLinkList, deleteLink } from '@/api/link'
 import CreateForm from './modules/CreateForm'
 import SearchForm from './modules/SearchForm'
+import AvatarList from '@/components/AvatarList'
+const AvatarListItem = AvatarList.AvatarItem
+
 export default {
-  name: 'TagsList',
+  name: 'LinksList',
   components: {
     STable,
     Ellipsis,
     CreateForm,
-    SearchForm
+    SearchForm,
+    AvatarList,
+    AvatarListItem
   },
   filters: filters,
   data () {
     return {
       queryParam: {},
       loadData: parameter => {
-        return fetchTagsList(Object.assign(parameter, this.queryParam))
+        return fetchLinkList(Object.assign(parameter, this.queryParam))
           .then(res => {
             return res
           })
@@ -98,15 +109,15 @@ export default {
     createHandler () {
       this.formType = 'create'
       this.visible = true
-      this.$refs.createTagsForm.resetForm()
+      this.$refs.createLinksForm.resetForm()
     },
     handleEdit (record) {
       this.formType = 'edit'
       this.visible = true
-      this.$refs.createTagsForm.handleEdit(record)
+      this.$refs.createLinksForm.handleEdit(record)
     },
     handleDelete (row) {
-      deleteTags(row.id).then(res => {
+      deleteLink(row.id).then(res => {
         this.$notification.success({
           message: '删除成功'
         })
@@ -121,5 +132,12 @@ export default {
 </script>
 
 <style scoped>
-
+  .edit-input {
+    padding-right: 100px;
+  }
+  .cancel-btn {
+    position: absolute;
+    right: 15px;
+    top: 10px;
+  }
 </style>

@@ -1,10 +1,7 @@
 <template>
   <page-header-wrapper title=" ">
     <a-card :bordered="false">
-      <SearchForm ref="SearchCategoryForm" @reloadData="reloadData"/>
-      <div class="table-operator">
-        <a-button type="primary" icon="plus" @click="createHandler">新建</a-button>
-      </div>
+      <SearchForm ref="SearchForm" @reloadData="reloadData"/>
       <s-table
         ref="table"
         size="default"
@@ -15,12 +12,26 @@
         :rowSelection="options.rowSelection"
         showPagination="true"
       >
+
+        <span slot="content" slot-scope="text">
+          <ellipsis :length="10" tooltip>{{ text }}</ellipsis>
+        </span>
+        <span slot="postTitle" slot-scope="text">
+          <ellipsis :length="10" tooltip>{{ text }}</ellipsis>
+        </span>
+        <span slot="parentUserName" slot-scope="text">
+          {{ text === undefined ? '无': text }}
+        </span>
+
+        <!--   添加操作     -->
         <span slot="action" slot-scope="text, record">
           <template>
-            <a @click="handleEdit(record)">编辑</a>
+            <a @click="handleEdit(record)">回复</a>
+
             <a-divider type="vertical" />
+
             <a-popconfirm
-              title="确定删除这个标签？"
+              title="确定删除这条评论？"
               @confirm="handleDelete(record)"
               @cancel="cancel"
               okText="Yes"
@@ -34,7 +45,7 @@
       <CreateForm
         :formType="formType"
         :visible="visible"
-        ref="createTagsForm"
+        ref="createCommentForm"
         @resetData="resetData"
         @refreshTable="refreshTable"
       />
@@ -44,16 +55,17 @@
 
 <script>
 import { STable, Ellipsis } from '@/components'
-import { table, filters } from './tags-constants'
-import { fetchTagsList, deleteTags } from '@/api/tags'
+import { table, filters } from './comment-constants'
 import CreateForm from './modules/CreateForm'
+import { fetchCommentLists, deleteComment } from '@/api/comment'
 import SearchForm from './modules/SearchForm'
+
 export default {
-  name: 'TagsList',
+  name: 'CommentList',
   components: {
+    CreateForm,
     STable,
     Ellipsis,
-    CreateForm,
     SearchForm
   },
   filters: filters,
@@ -61,7 +73,7 @@ export default {
     return {
       queryParam: {},
       loadData: parameter => {
-        return fetchTagsList(Object.assign(parameter, this.queryParam))
+        return fetchCommentLists(Object.assign(parameter, this.queryParam))
           .then(res => {
             return res
           })
@@ -78,8 +90,6 @@ export default {
       formType: 'create'
     }
   },
-  created () { },
-  beforeCreate () {},
   methods: {
     resetData (flag) {
       this.visible = flag
@@ -92,28 +102,28 @@ export default {
       this.queryParam = queryParam
       this.refreshTable()
     },
-    handleSub () {
-      this.visible = true
-    },
     createHandler () {
       this.formType = 'create'
       this.visible = true
-      this.$refs.createTagsForm.resetForm()
+      this.$refs.createCommentForm.resetForm()
     },
     handleEdit (record) {
+      this.$refs.createCommentForm.handleEdit(record)
       this.formType = 'edit'
       this.visible = true
-      this.$refs.createTagsForm.handleEdit(record)
+    },
+    handleSub () {
+      this.visible = true
     },
     handleDelete (row) {
-      deleteTags(row.id).then(res => {
+      deleteComment(row.id).then(res => {
         this.$notification.success({
-          message: '删除成功'
+          message: '删除成功!'
         })
         this.$refs.table.refresh()
       })
     },
-    cancel () { },
+    cancel () {},
     handleSelectChange (value) {
     }
   }
@@ -121,5 +131,12 @@ export default {
 </script>
 
 <style scoped>
-
+  .edit-input {
+    padding-right: 100px;
+  }
+  .cancel-btn {
+    position: absolute;
+    right: 15px;
+    top: 10px;
+  }
 </style>

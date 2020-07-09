@@ -55,7 +55,17 @@
 
 </template>
 <script>
+import { VueCropper } from 'vue-cropper'
+
 export default {
+  components: {
+    VueCropper
+  },
+  props: {
+    imgUrl: {
+      type: String
+    }
+  },
   data () {
     return {
       visible: false,
@@ -65,7 +75,7 @@ export default {
       uploading: false,
       options: {
         // img: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-        img: '',
+        img: this.imgUrl,
         autoCrop: true,
         autoCropWidth: 200,
         autoCropHeight: 200,
@@ -123,7 +133,7 @@ export default {
           this.model = true
           this.modelSrc = img
           formData.append('file', data, this.fileName)
-          this.$http.post('https://www.mocky.io/v2/5cc8019d300000980a055e76', formData, { contentType: false, processData: false, headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
+          this.$http.post('/file/v1/upload/', formData, { contentType: false, processData: false, headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
             .then((response) => {
               console.log('upload response:', response)
               // var res = response.data
@@ -135,7 +145,7 @@ export default {
               //   this.visible = false
               // }
               _this.$message.success('上传成功')
-              _this.$emit('ok', response.url)
+              _this.$emit('ok', response.extra)
               _this.visible = false
             })
         })
@@ -145,6 +155,9 @@ export default {
           this.modelSrc = data
         })
       }
+    },
+    setImg (url) {
+      this.options.img = url
     },
     okHandel () {
       const vm = this

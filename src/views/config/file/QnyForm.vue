@@ -1,78 +1,75 @@
 <template>
-  <a-card :body-style="{padding: '24px 32px'}" :bordered="false">
-    <a-form @submit="handleSubmit" :form="form">
-      <a-form-item
-        label="access_key"
-        :labelCol="{lg: {span: 7}, sm: {span: 7}}"
-        :wrapperCol="{lg: {span: 10}, sm: {span: 17} }">
-        <a-input
-          v-decorator="[
-            'accessKey',
-            {rules: [{ required: true, message: '请输入accessKey' }]}
-          ]"
-          name="accessKey"
-          placeholder="输入你的accessKey" />
-      </a-form-item>
-
-      <a-form-item
-        label="secret_key"
-        :labelCol="{lg: {span: 7}, sm: {span: 7}}"
-        :wrapperCol="{lg: {span: 10}, sm: {span: 17} }">
-        <a-input
-          v-decorator="[
-            'secretKey',
-            {rules: [{ required: true, message: '请输入secretKey' }]}
-          ]"
-          name="secretKey"
-          placeholder="输入你的secretKey" />
-      </a-form-item>
-
-      <a-form-item
-        label="bucket"
-        :labelCol="{lg: {span: 7}, sm: {span: 7}}"
-        :wrapperCol="{lg: {span: 10}, sm: {span: 17} }">
-        <a-input
-          v-decorator="[
-            'bucket',
-            {rules: [{ required: true, message: '请输入bucket' }]}
-          ]"
-          name="bucket"
-          placeholder="输入你的存储空间名称" />
-      </a-form-item>
-
-      <a-form-item
-        label="域名"
-        :labelCol="{lg: {span: 7}, sm: {span: 7}}"
-        :wrapperCol="{lg: {span: 10}, sm: {span: 17} }">
-        <a-input
-          v-decorator="[
-            'imageDomain',
-            {rules: [{ required: true, message: '输入你的加速域名' }]}
-          ]"
-          name="imageDomain"
-          placeholder="http://image.{host}.com" />
-      </a-form-item>
-
-      <a-form-item
-        label="是否启用"
-        :labelCol="{lg: {span: 7}, sm: {span: 7}}"
-        :wrapperCol="{lg: {span: 10}, sm: {span: 17} }"
-        :required="false"
-      >
-        <a-radio-group v-model="value">
-          <a-radio :value="0">否</a-radio>
-          <a-radio :value="1">是</a-radio>
-        </a-radio-group>
-      </a-form-item>
-
-      <a-form-item
-        :wrapperCol="{ span: 24 }"
-        style="text-align: center"
-      >
-        <a-button htmlType="submit" type="primary">提交</a-button>
-      </a-form-item>
-    </a-form>
-  </a-card>
+  <page-header-wrapper title=" ">
+    <a-card :body-style="{padding: '24px 32px'}" :bordered="false">
+      <a-form @submit="handleSubmit" :form="form">
+        <a-form-item
+          label="access_key"
+          :labelCol="{lg: {span: 7}, sm: {span: 7}}"
+          :wrapperCol="{lg: {span: 10}, sm: {span: 17} }">
+          <a-input
+            v-decorator="[
+              'accessKey',
+              {rules: [{ required: true, message: '请输入accessKey' }]}
+            ]"
+            name="accessKey"
+            placeholder="输入你的accessKey" />
+        </a-form-item>
+        <a-form-item
+          label="secret_key"
+          :labelCol="{lg: {span: 7}, sm: {span: 7}}"
+          :wrapperCol="{lg: {span: 10}, sm: {span: 17} }">
+          <a-input
+            v-decorator="[
+              'secretKey',
+              {rules: [{ required: true, message: '请输入secretKey' }]}
+            ]"
+            name="secretKey"
+            placeholder="输入你的secretKey" />
+        </a-form-item>
+        <a-form-item
+          label="bucket"
+          :labelCol="{lg: {span: 7}, sm: {span: 7}}"
+          :wrapperCol="{lg: {span: 10}, sm: {span: 17} }">
+          <a-input
+            v-decorator="[
+              'bucket',
+              {rules: [{ required: true, message: '请输入bucket' }]}
+            ]"
+            name="bucket"
+            placeholder="输入你的存储空间名称" />
+        </a-form-item>
+        <a-form-item
+          label="域名"
+          :labelCol="{lg: {span: 7}, sm: {span: 7}}"
+          :wrapperCol="{lg: {span: 10}, sm: {span: 17} }">
+          <a-input
+            v-decorator="[
+              'imageDomain',
+              {rules: [{ required: true, message: '输入你的加速域名' }]}
+            ]"
+            name="imageDomain"
+            placeholder="http://image.{host}.com" />
+        </a-form-item>
+        <a-form-item
+          label="是否启用"
+          :labelCol="{lg: {span: 7}, sm: {span: 7}}"
+          :wrapperCol="{lg: {span: 10}, sm: {span: 17} }"
+          :required="false"
+        >
+          <a-radio-group v-model="value">
+            <a-radio :value="0">否</a-radio>
+            <a-radio :value="1">是</a-radio>
+          </a-radio-group>
+        </a-form-item>
+        <a-form-item
+          :wrapperCol="{ span: 24 }"
+          style="text-align: center"
+        >
+          <a-button htmlType="submit" type="primary">提交</a-button>
+        </a-form-item>
+      </a-form>
+    </a-card>
+  </page-header-wrapper>
 </template>
 
 <script>
@@ -129,10 +126,10 @@ export default {
     },
     getConfigList () {
       fetchConfigList({ type: 1 }).then(res => {
-        const { models } = res
+        const { data } = res
         this.form.resetFields()
 
-        models.forEach((item) => {
+        data.forEach((item) => {
           switch (item.configKey) {
             case 'qiniu_access_key':
               this.data.accessKey = item.configValue

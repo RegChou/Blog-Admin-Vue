@@ -75,7 +75,7 @@ export default {
         alert: { show: true, clear: () => { this.selectedRowKeys = [] } },
         rowSelection: {
           selectedRowKeys: this.selectedRowKeys,
-          onChange: this.onSelectChange
+          onChange: this.handleSelectChange
         }
       },
       columns: table.columns,
@@ -120,7 +120,6 @@ export default {
     },
     cancel () { },
     handleSelectChange (value) {
-      console.log(`Selected: ${value}`)
     }
   }
 }

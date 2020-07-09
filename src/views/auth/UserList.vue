@@ -13,17 +13,39 @@
         :rowSelection="options.rowSelection"
         showPagination="true"
       >
-        <span slot="url" slot-scope="text">
+        <span slot="introduction" slot-scope="text">
           <ellipsis :length="10" tooltip>{{ text }}</ellipsis>
         </span>
-        <span slot="parameter" slot-scope="text">
-          <ellipsis :length="10" tooltip>{{ text }}</ellipsis>
+
+        <span slot="role" slot-scope="text">
+          <template>
+            <a v-if="text === 1">用户</a>
+            <a v-if="text === 2">管理员</a>
+          </template>
         </span>
-        <span slot="url" slot-scope="text">
-          <ellipsis :length="10" tooltip>{{ text }}</ellipsis>
+
+        <span slot="status" slot-scope="text">
+          <template>
+            <a v-if="text === 0">正常</a>
+            <a v-if="text === 1">锁定</a>
+          </template>
         </span>
-        <span slot="createTime" slot-scope="text">
-          {{ text | dayjs }}
+
+        <span slot="action" slot-scope="text, record">
+          <template>
+            <a v-if="record.status === 0 && record.roleId === 1" @click="handleEditStatus(record,1)">锁定</a>
+            <a v-if="record.status === 1 && record.roleId === 1" @click="handleEditStatus(record,0)">解锁</a>
+            <a-divider v-if="record.roleId === 1" type="vertical" />
+            <a-popconfirm
+              title="确定删除这个用户？"
+              @confirm="handleDelete(record)"
+              @cancel="cancel"
+              okText="Yes"
+              cancelText="No"
+            >
+              <a v-if="record.roleId === 1" href="#">删除</a>
+            </a-popconfirm>
+          </template>
         </span>
       </s-table>
     </a-card>
@@ -31,12 +53,12 @@
 </template>
 
 <script>
-import { fetchLogsList } from '@/api/logs'
+import { getUserList, updateStatus, deleteUser } from '@/api/user'
 import { STable, Ellipsis } from '@/components'
 import SearchForm from './modules/SearchForm'
-import { filters, table } from './logs-constants'
+import { filters, table } from './auth-constants'
 export default {
-  name: 'LogsList',
+  name: 'AuthList',
   components: {
     STable,
     Ellipsis,
@@ -47,7 +69,7 @@ export default {
     return {
       queryParam: {},
       loadData: parameter => {
-        return fetchLogsList(Object.assign(parameter, this.queryParam)).then(res => {
+        return getUserList(Object.assign(parameter, this.queryParam)).then(res => {
           return res
         })
       },
@@ -74,6 +96,23 @@ export default {
       this.formType = 'create'
       this.visible = true
       this.$refs.createUserForm.resetForm()
+    },
+    handleEditStatus (record, status) {
+      record.status = status
+      updateStatus(record).then(res => {
+        this.$notification.success({
+          message: status ? '锁定成功' : '解锁成功'
+        })
+        this.$refs.table.refresh()
+      })
+    },
+    handleDelete (record) {
+      deleteUser(record.id).then(res => {
+        this.$notification.success({
+          message: '删除成功'
+        })
+        this.$refs.table.refresh()
+      })
     },
     resetData (flag) {
       this.visible = flag

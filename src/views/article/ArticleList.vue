@@ -91,7 +91,7 @@ export default {
         },
         rowSelection: {
           selectedRowKeys: this.selectedRowKeys,
-          onChange: this.onSelectChange
+          onChange: this.handleSelectChange
         }
       },
       columns: table.columns,
@@ -141,7 +141,8 @@ export default {
         this.$refs.table.refresh()
       })
     },
-    cancel () {
+    cancel () {},
+    handleSelectChange (value) {
     }
   }
 }
