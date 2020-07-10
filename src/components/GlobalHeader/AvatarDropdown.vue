@@ -25,7 +25,7 @@
 
 <script>
 import { Modal } from 'ant-design-vue'
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'AvatarDropdown',
@@ -39,11 +39,12 @@ export default {
       default: true
     }
   },
+  computed: {
+    ...mapGetters(['nickname', 'avatar'])
+
+  },
   methods: {
     ...mapActions(['Logout']),
-    handleToCenter () {
-      this.$router.push({ path: '/account/center' })
-    },
     handleToSettings () {
       this.$router.push({ path: '/account/settings' })
     },

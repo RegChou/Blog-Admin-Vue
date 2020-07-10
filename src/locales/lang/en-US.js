@@ -1,9 +1,9 @@
-import antdEnUS from 'ant-design-vue/es/locale-provider/en_US'
-import momentEU from 'moment/locale/eu'
+import antdEnUS from 'ant-design-vue/es/locale-provider/zh_CN'
+import momentEU from 'moment/locale/zh-cn'
 
 const components = {
   antLocale: antdEnUS,
-  momentName: 'eu',
+  momentName: 'zh',
   momentLocale: momentEU
 }
 

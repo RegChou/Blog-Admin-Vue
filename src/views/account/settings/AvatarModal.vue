@@ -135,17 +135,8 @@ export default {
           formData.append('file', data, this.fileName)
           this.$http.post('/file/v1/upload/', formData, { contentType: false, processData: false, headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
             .then((response) => {
-              console.log('upload response:', response)
-              // var res = response.data
-              // if (response.status === 'done') {
-              //   _this.imgFile = ''
-              //   _this.headImg = res.realPathList[0] // 完整路径
-              //   _this.uploadImgRelaPath = res.relaPathList[0] // 非完整路径
-              //   _this.$message.success('上传成功')
-              //   this.visible = false
-              // }
               _this.$message.success('上传成功')
-              _this.$emit('ok', response.extra)
+              _this.$emit('ok', response.data)
               _this.visible = false
             })
         })

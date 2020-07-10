@@ -54,7 +54,7 @@ export default {
       this.fileList = fileList
 
       if (fileList[0] !== undefined && fileList[0].response !== undefined) {
-        this.url = fileList[0].response.extra
+        this.url = fileList[0].response.data
         this.$emit('getImageUrl', this.url)
       }
     },

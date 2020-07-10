@@ -185,9 +185,7 @@ export default {
       e.preventDefault()
       this.form.validateFieldsAndScroll((err, values) => {
         if (!err && this.content !== null) {
-          console.log('Received values of form: ', values)
           const createParams = { ...values }
-
           const arr = []
           if (createParams.tagsList !== undefined) {
             createParams.tagsList.forEach((item, index) => {
@@ -333,7 +331,6 @@ export default {
       this.previewVisible = true
     },
     handleChange ({ fileList }) {
-      console.log(fileList)
       this.fileList = fileList
     },
     handleSelectChange (value) {

@@ -1,24 +1,21 @@
 <template>
   <div :class="wrpCls">
     <avatar-dropdown :menu="showMenu" :current-user="currentUser" :class="prefixCls" />
-    <select-lang :class="prefixCls" />
   </div>
 </template>
 
 <script>
 import AvatarDropdown from './AvatarDropdown'
-import SelectLang from '@/components/SelectLang'
 
 export default {
   name: 'RightContent',
   components: {
-    AvatarDropdown,
-    SelectLang
+    AvatarDropdown
   },
   props: {
     prefixCls: {
       type: String,
-      default: 'ant-pro-global-header-index-action'
+      default: 'ant-pro-index-right'
     },
     isMobile: {
       type: Boolean,
