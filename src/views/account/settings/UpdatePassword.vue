@@ -138,7 +138,6 @@ export default {
     },
     handlePasswordCheck (rule, value, callback) {
       const password = this.form.getFieldValue('password')
-      console.log('value', value)
       if (value === undefined) {
         callback(new Error('请输入密码'))
       }
@@ -166,7 +165,7 @@ export default {
               updatePassword(updateParams)
                 .then(response => {
                   const { success } = response
-                  if (success === 1) {
+                  if (success) {
                     setTimeout(() => {
                       window.location.reload()
                     }, 16)
